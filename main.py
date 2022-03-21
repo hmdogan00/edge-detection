@@ -20,7 +20,8 @@ def filter_image(arr:np.ndarray, org:np.ndarray=[], title:str='Image'):
   if len(org) == 0:
     org = np.zeros(arr.shape)
   im = org[:,:]
-  im[arr > 0.01 * arr.max()] = [255]
+  im = cv2.cvtColor(im, cv2.COLOR_GRAY2RGB)
+  im[arr > 0.01 * arr.max()] = [255, 0, 0]
   im = Image.fromarray(im)
   im.show(title=title)
 
@@ -32,5 +33,5 @@ if __name__ == '__main__':
 
   # TODO: implement SUSAN algorithm
   h = harris(img_arr, 0.07, 2)
-  filter_image(h)
+  filter_image(h, img_arr)
   s = susan(img_arr)
