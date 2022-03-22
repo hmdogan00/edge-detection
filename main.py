@@ -1,9 +1,9 @@
-from matplotlib.pyplot import title
 import numpy as np
 from PIL import Image
 import cv2
 from harris import harris
 from susan import susan
+from sift import sift
 
 def filter_image(arr:np.ndarray, org:np.ndarray=[], title:str='Image'):
   """Filters given image array (has to be numpy array) and prints it
@@ -34,4 +34,6 @@ if __name__ == '__main__':
   # TODO: implement SUSAN algorithm
   h = harris(img_arr, 0.07, 2)
   filter_image(h, img_arr)
-  s = susan(img_arr)
+  sus = susan(img_arr)
+  filter_image(sus, img_arr)
+  sif = sift(img_arr)
