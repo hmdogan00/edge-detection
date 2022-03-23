@@ -17,6 +17,11 @@ def harris(img : np.ndarray, k : int, window_size : int):
   
   k : int
     k value to weight the trace
+  
+  Returns
+  -------
+  output : ndarray
+    R values of the pixels
   """
   # initialize output array and offset
   output = np.zeros(img.shape)
