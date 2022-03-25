@@ -50,13 +50,13 @@ if __name__ == '__main__':
   # TODO: implement SIFT algorithm
   #h = harris(img_arr, 0.07, 2)
   #filter_image(h, img_arr)
-  sus1 = susan(img_arr2, 3, 27, 16.5)
+  sus1 = susan(img_arr2, 3, 27, 14.5)
   filter_image(sus1, img_arr2, type='sus')
-  sus2 = susan(img_arr2, 3, 27, 16.5)
+  sus2 = susan(img_arr2, 3, 27, 14.5)
   filter_image(sus2, img_arr2, type='sus')
-  sus3 = susan(img_arr3, 3, 27, 16.5)
+  sus3 = susan(img_arr3, 3, 27, 14.5)
   filter_image(sus3, img_arr3, type='sus')
-  sus = susan(img_arr4, 3, 27, 16.5)
+  sus = susan(img_arr4, 3, 27, 14.5)
   filter_image(sus, img_arr4, type='sus')
   """""
   # library
