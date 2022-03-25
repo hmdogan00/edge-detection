@@ -66,43 +66,51 @@ def susan(img: np.ndarray, mask_radius: int, t: int, g: int):
     mask = create_circular_mask(mask_radius)
     output = np.zeros(img.shape)
     # calculate the max range of the pixels
+    # iterate through each pixel of the image
     for row_ind in range(len(img)):
         for col_ind in range(len(img[0])):
             # find the column values that can be intersection of mask and image
-            temp_col = col_ind - math.floor(len(mask[0]) / 2)
+            # find the min column value for the intersection of (row_ind,col_ind) pixel of the image and the mask
+            temp_col = col_ind - math.floor(
+                len(mask[0]) / 2)  # divide by two since nucleus will be iterated over pixels
             min_col = max(temp_col, 0)
-            temp_col2 = col_ind + math.floor(len(mask[0]) / 2)
+            # find the max column value for the intersection of (row_ind,col_ind) pixel of the image and the mask
+            temp_col2 = col_ind + math.floor(
+                len(mask[0]) / 2)  # divide by two since nucleus will be iterated over pixels
             max_col = temp_col2
+            # if the number of max column exceeds the image boundary, limit it
             if max_col >= len(img[0]):
-              max_col = len(img[0])-1
+                max_col = len(img[0]) - 1
             # find the row values that can be intersection of structure element and the image
-            temp_row = row_ind - math.floor(len(mask) / 2)
+            # find the min row value for the intersection of (row_ind,col_ind) pixel of the image and the mask
+            temp_row = row_ind - math.floor(
+                len(mask) / 2)  # divide by two since nucleus will be iterated over pixels
             min_row = max(temp_row, 0)
-            temp_row2 = row_ind + math.floor(len(mask) / 2)
+            # find the max row value for the intersection of (row_ind,col_ind) pixel of the image and the mask
+            temp_row2 = row_ind + math.floor(
+                len(mask) / 2)   # divide by two since nucleus will be iterated over pixels
             max_row = temp_row2
+            # if the number of max row exceeds the image boundary, limit it
             if max_row >= len(img):
-              max_row = len(img)-1
-            end_val = max_row + 1
-            end_val2 = max_col + 1
-            # find origin
+                max_row = len(img) - 1
+            # find I(r0) value = nucleus' pixel value on image
             i_r0 = img[row_ind, col_ind]
+            # initialize USAN area to 0
             n_r0 = 0
             # iterate over mask
-            stry = int(mask_radius - row_ind)
-            stry_start = max(stry, 0)
-            for y in range(min_row, end_val):
-                strx = int(mask_radius - col_ind)
-                strx_start = max(strx, 0)
-                for x in range(min_col, end_val2):
+            for y in range(min_row, max_row+1):
+                for x in range(min_col, max_col+1):
+                    # find the other pixel values within the mask
                     i_r = img[y][x]
+                    # calculate the comparision formula
                     c_r_r0 = math.exp(-((float(i_r) - float(i_r0)) / t) ** 6)
-                    #print('c-r_0', c_r_r0)
+                    # sum up to the USAN area
                     n_r0 = n_r0 + c_r_r0
-                    strx_start = strx_start + 1
-                stry_start = stry_start + 1
+            # Whether the USAN area is smaller than the geometric threshold, or not
             if n_r0 < g:
                 r_r0 = g - n_r0
             else:
                 r_r0 = 0
+            # put it to the response to corner to the output matrix
             output[row_ind, col_ind] = r_r0
     return output
