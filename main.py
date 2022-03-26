@@ -39,26 +39,19 @@ if __name__ == '__main__':
   # get image using PIL and convert to grayscale
   img1 = Image.open('images/image_1.jpg').convert('L')
   img2 = Image.open('images/image_2.png').convert('L')
-  img3 = Image.open('images/image_3.png').convert('L')
-  img4 = Image.open('images/image_4.jpg').convert('L')
+  img3 = Image.open('images/image_3.jpg').convert('L')
   # make the image numpy array
   img_arr1 = np.asarray(img1)
   img_arr2 = np.asarray(img2)
   img_arr3 = np.asarray(img3)
-  img_arr4 = np.asarray(img4)
-
-  # TODO: implement SIFT algorithm
-  #h = harris(img_arr, 0.07, 2)
-  #filter_image(h, img_arr)
+  """""
   sus1 = susan(img_arr2, 3, 27, 14.5)
   filter_image(sus1, img_arr2, type='sus')
   sus2 = susan(img_arr2, 3, 27, 14.5)
   filter_image(sus2, img_arr2, type='sus')
   sus3 = susan(img_arr3, 3, 27, 14.5)
   filter_image(sus3, img_arr3, type='sus')
-  sus = susan(img_arr4, 3, 27, 14.5)
-  filter_image(sus, img_arr4, type='sus')
-  """""
+  
   # library
 
   xoffset, yoffset = 0.975, 0.08
@@ -76,5 +69,13 @@ if __name__ == '__main__':
   plt.text(xpos, ypos, 'SUSAN corners', color='r')
   plt.show()
   """""
+  h1 = harris(img_arr1, 0.07, 5)
+  filter_image(h1, img_arr1)
+  h2 = harris(img_arr2, 0.07, 5)
+  filter_image(h2, img_arr2)
+  h3 = harris(img_arr3, 0.07, 5)
+  filter_image(h3, img_arr3)
+
+
 
   #sif = sift(img_arr)
