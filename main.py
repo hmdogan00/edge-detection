@@ -22,13 +22,13 @@ def test_stability(img1, img2, susan_hypers = [3, 27, 14.5], harris_hypers = [0.
   sus2 = susan(img2, *susan_hypers)
   har1 = harris(img1, *harris_hypers)
   har2 = harris(img2, *harris_hypers)
-  print("Stability factor is",calculate_stability(sus1, sus2))
+  print("Stability factor of SUSAN is",calculate_stability(sus1, sus2))
   # calculate stability factor of image_4 and image_5 on harris
   h1 = np.zeros(har1.shape)
   h1[har1 > 0.01 * har1.max()] = 1
   h2 = np.zeros(har2.shape)
   h2[har2 > 0.01 * har2.max()] = 1
-  print("Stability factor is", calculate_stability(h1, h2))
+  print("Stability factor of Harris is", calculate_stability(h1, h2))
 
 def calculate_stability(arr1, arr2):
   intersect= np.count_nonzero(np.logical_and(arr1,arr2))
@@ -40,7 +40,10 @@ def calculate_stability(arr1, arr2):
 def test_noise(img, noised):
   sus = susan(img, 3, 40, 14.5)
   noise_sus = susan(noised, 3, 40, 14.5)
-  print('Noise factor is', calculate_noise(sus, noise_sus))
+  har = harris(img, 0.07, 5)
+  noise_har = harris(noised, 0.07, 5)
+  print('Noise factor of SUSAN is', calculate_noise(sus, noise_sus))
+  print('Noise factor of Harris is', calculate_noise(har, noise_har))
 
  
 def calculate_noise(img, noised):
@@ -85,6 +88,7 @@ if __name__ == '__main__':
   img_arr5 = np.asarray(img5)
 
   print(timer(img_arr4, susan, 3, 27, 14.5))
+  print(timer(img_arr4, harris, 0.07, 5))
   
   noise_dino1 = Image.open('images/noise_sens_1.png').convert('L')
   noise_dino_arr1 = np.asarray(noise_dino1)
