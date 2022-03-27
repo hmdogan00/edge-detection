@@ -99,6 +99,13 @@ if __name__ == '__main__':
   test_stability(img_arr4, img_arr5)
 
   #calculate noise factor of sense1 for susan
-  test_noise(img_arr4, noise_dino_arr1)
+  #test_noise(img_arr4, noise_dino_arr1)
 
   #sif = sift(img_arr)
+  # calculate noise factor of sense1 for susan
+  intersect = np.count_nonzero(np.logical_and(sus4, sus_noise1))
+  elem_sus4 = np.count_nonzero(sus4)
+  elem_sus5 = np.count_nonzero(sus_noise1)
+  min_elem = min(elem_sus4, elem_sus5)
+  noise_fact = (intersect / min_elem) * 100
+  print("noise_factor is", noise_fact)
