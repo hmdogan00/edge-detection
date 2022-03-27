@@ -37,44 +37,38 @@ def filter_image(arr: np.ndarray, org: np.ndarray=[], title: str='Image', type: 
 
 if __name__ == '__main__':
   # get image using PIL and convert to grayscale
-  img1 = Image.open('images/image_1.jpg').convert('L')
-  img2 = Image.open('images/image_2.png').convert('L')
-  img3 = Image.open('images/image_3.jpg').convert('L')
+  #img4 = Image.open('images/image_4.png').convert('L')
+  #img5 = Image.open('images/image_5.png').convert('L')
   # make the image numpy array
-  img_arr1 = np.asarray(img1)
-  img_arr2 = np.asarray(img2)
-  img_arr3 = np.asarray(img3)
-  """""
-  sus1 = susan(img_arr2, 3, 27, 14.5)
-  filter_image(sus1, img_arr2, type='sus')
-  sus2 = susan(img_arr2, 3, 27, 14.5)
-  filter_image(sus2, img_arr2, type='sus')
-  sus3 = susan(img_arr3, 3, 27, 14.5)
-  filter_image(sus3, img_arr3, type='sus')
-  
-  # library
+  #img_arr4 = np.asarray(img4)
+  #img_arr5 = np.asarray(img5)
 
-  xoffset, yoffset = 0.975, 0.08
-  xpos, ypos = xoffset * img_arr4.shape[1], yoffset * img_arr4.shape[0]
-  sucorner = ftdetect.features.susanCorner(img_arr4)
-  # Plot the results of the SUSAN corner detector
-  fig = plt.figure()
-  fig.canvas.set_window_title('images/image_4.jpg')
-  ax = fig.add_axes((0.51, 0.01, 0.48, 0.48))
-  ax.set_axis_off()
-  ax.imshow(img4, interpolation='nearest', cmap='Greys_r')
-  ax.autoscale(tight=True)
-  vidx, hidx = sucorner.nonzero()
-  ax.plot(hidx, vidx, 'bo')
-  plt.text(xpos, ypos, 'SUSAN corners', color='r')
-  plt.show()
-  """""
-  h1 = harris(img_arr1, 0.07, 5)
-  filter_image(h1, img_arr1)
-  h2 = harris(img_arr2, 0.07, 5)
-  filter_image(h2, img_arr2)
-  h3 = harris(img_arr3, 0.07, 5)
-  filter_image(h3, img_arr3)
+  #dino1 = Image.open('images/dino_1.png').convert('L')
+  #dino_arr1 = np.asarray(dino1)
+  dino2 = Image.open('images/dino_2.png').convert('L')
+  dino_arr2 = np.asarray(dino2)
+
+  #sus4 = susan(img_arr4, 3, 27, 14.5)
+  #filter_image(sus4, img_arr4, type='sus')
+  #sus5 = susan(img_arr5, 3, 27, 14.5)
+  #filter_image(sus5, img_arr5, type='sus')
+
+  #sus1 = susan(dino_arr1, 3, 27, 14.5)
+  #filter_image(sus1, dino_arr1, type='sus')
+  #sus2 = susan(dino_arr2, 3, 27, 14.5)
+  #filter_image(sus2, dino_arr2, type='sus')
+
+
+  #h4= harris(img_arr4, 0.07, 5)
+  #filter_image(h4, img_arr4)
+  #h5 = harris(img_arr5, 0.07, 5)
+  #filter_image(h5, img_arr5)
+
+  #h1 = harris(dino_arr1, 0.07, 5)
+  #filter_image(h1, dino_arr1)
+  h2 = harris(dino_arr2, 0.07, 5)
+  filter_image(h2, dino_arr2)
+
 
 
 
