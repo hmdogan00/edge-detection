@@ -1,3 +1,4 @@
+from re import L
 import numpy as np
 from PIL import Image
 import cv2
@@ -21,13 +22,13 @@ def test_stability(img1, img2, susan_hypers = [3, 27, 14.5], harris_hypers = [0.
   sus2 = susan(img2, *susan_hypers)
   har1 = harris(img1, *harris_hypers)
   har2 = harris(img2, *harris_hypers)
-  print("stab_factor is",calculate_stability(sus1, sus2))
+  print("Stability factor is",calculate_stability(sus1, sus2))
   # calculate stability factor of image_4 and image_5 on harris
   h1 = np.zeros(har1.shape)
   h1[har1 > 0.01 * har1.max()] = 1
   h2 = np.zeros(har2.shape)
   h2[har2 > 0.01 * har2.max()] = 1
-  print("stab_factor is", calculate_stability(h1, h2))
+  print("Stability factor is", calculate_stability(h1, h2))
 
 def calculate_stability(arr1, arr2):
   intersect= np.count_nonzero(np.logical_and(arr1,arr2))
@@ -35,6 +36,20 @@ def calculate_stability(arr1, arr2):
   elem2 = np.count_nonzero(arr2)
   min_elem= min(elem1, elem2)
   return (intersect / min_elem) * 100
+
+def test_noise(img, noised):
+  sus = susan(img, 3, 40, 14.5)
+  noise_sus = susan(noised, 3, 40, 14.5)
+  print('Noise factor is', calculate_noise(sus, noise_sus))
+
+ 
+def calculate_noise(img, noised):
+  intersect = np.count_nonzero(np.logical_and(img, noised))
+  elem1 = np.count_nonzero(img)
+  elem2 = np.count_nonzero(noised)
+  min_elem = min(elem1, elem2)
+  return (intersect / min_elem) * 100
+
 
 def filter_image(arr: np.ndarray, org: np.ndarray=[], title: str='Image', type: Literal['har', 'sus', 'sif'] = 'har'):
   """Filters given image array (has to be numpy array) and prints it
@@ -69,42 +84,22 @@ if __name__ == '__main__':
   img_arr4 = np.asarray(img4)
   img_arr5 = np.asarray(img5)
 
-  #dino1 = Image.open('images/dino_1.png').convert('L')
-  #dino_arr1 = np.asarray(dino1)
-  #dino2 = Image.open('images/dino_2.png').convert('L')
-  #dino_arr2 = np.asarray(dino2)
-
-  #noise_dino1 = Image.open('images/noise_dino_1.png').convert('L')
-  #noise_dino_arr1 = np.asarray(noise_dino1)
   print(timer(img_arr4, susan, 3, 27, 14.5))
   
   #filter_image(sus4, img_arr4, type='sus')
-  #sus5 = susan(img_arr5, 3, 27, 14.5)
-  #filter_image(sus5, img_arr5, type='sus')
+  noise_dino1 = Image.open('images/noise_sens_1.png').convert('L')
+  noise_dino_arr1 = np.asarray(noise_dino1)
 
-  #sus1 = susan(dino_arr1, 3, 27, 14.5)
-  #filter_image(sus1, dino_arr1, type='sus')
-  #sus2 = susan(dino_arr2, 3, 27, 14.5)
-  #filter_image(sus2, dino_arr2, type='sus')
+  sus4 = susan(img_arr4, 3, 27, 14.5)
+  filter_image(sus4, img_arr4, type='sus')
 
-  #sus_noise1 = susan(noise_dino_arr1, 3, 40, 14.5)
-  #filter_image(sus_noise1, noise_dino_arr1, type='sus')
-
-
-
-  h4= harris(img_arr4, 0.07, 5)
-  #filter_image(h4, img_arr4)
-  h5 = harris(img_arr5, 0.07, 5)
-  #filter_image(h5, img_arr5)
-
-  #h1= harris(dino_arr1, 0.07, 5)
-  #filter_image(h1, dino_arr1)
-  #h2 = harris(dino_arr2, 0.07, 5)
-  #filter_image(h2, dino_arr2)
-
-  #h_noise_1 = harris(noise_dino_arr1, 0.1, 5)
-  #filter_image(h_noise_1, noise_dino_arr1)
+  sus_noise1 = susan(noise_dino_arr1, 3, 40, 14.5)
+  filter_image(sus_noise1, noise_dino_arr1, type='sus')
 
   #calculate stability factor of image_4 and image_5 on susan
   test_stability(img_arr4, img_arr5)
+
+  #calculate noise factor of sense1 for susan
+  test_noise(img_arr4, noise_dino_arr1)
+
   #sif = sift(img_arr)
