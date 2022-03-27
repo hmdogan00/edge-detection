@@ -45,8 +45,11 @@ if __name__ == '__main__':
 
   #dino1 = Image.open('images/dino_1.png').convert('L')
   #dino_arr1 = np.asarray(dino1)
-  dino2 = Image.open('images/dino_2.png').convert('L')
-  dino_arr2 = np.asarray(dino2)
+  #dino2 = Image.open('images/dino_2.png').convert('L')
+  #dino_arr2 = np.asarray(dino2)
+
+  noise_dino1 = Image.open('images/noise_dino_1.png').convert('L')
+  noise_dino_arr1 = np.asarray(noise_dino1)
 
   #sus4 = susan(img_arr4, 3, 27, 14.5)
   #filter_image(sus4, img_arr4, type='sus')
@@ -58,16 +61,23 @@ if __name__ == '__main__':
   #sus2 = susan(dino_arr2, 3, 27, 14.5)
   #filter_image(sus2, dino_arr2, type='sus')
 
+  #sus_noise1 = susan(noise_dino_arr1, 3, 40, 14.5)
+  #filter_image(sus_noise1, noise_dino_arr1, type='sus')
+
+
 
   #h4= harris(img_arr4, 0.07, 5)
   #filter_image(h4, img_arr4)
   #h5 = harris(img_arr5, 0.07, 5)
   #filter_image(h5, img_arr5)
 
-  #h1 = harris(dino_arr1, 0.07, 5)
+  #h1= harris(dino_arr1, 0.07, 5)
   #filter_image(h1, dino_arr1)
-  h2 = harris(dino_arr2, 0.07, 5)
-  filter_image(h2, dino_arr2)
+  #h2 = harris(dino_arr2, 0.07, 5)
+  #filter_image(h2, dino_arr2)
+
+  h_noise_1 = harris(noise_dino_arr1, 0.1, 5)
+  filter_image(h_noise_1, noise_dino_arr1)
 
 
 
