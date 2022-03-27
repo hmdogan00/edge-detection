@@ -86,7 +86,6 @@ if __name__ == '__main__':
 
   print(timer(img_arr4, susan, 3, 27, 14.5))
   
-  #filter_image(sus4, img_arr4, type='sus')
   noise_dino1 = Image.open('images/noise_sens_1.png').convert('L')
   noise_dino_arr1 = np.asarray(noise_dino1)
 
