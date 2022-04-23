@@ -1,12 +1,13 @@
-from re import L
 import numpy as np
 from PIL import Image
 import cv2
 from typing import Literal
+from datetime import datetime
+
 from harris import harris
 from susan import susan
-from sift import sift
-from datetime import datetime
+from matching import match, imp_match
+
 #delete later
 #import ftdetect.features
 import matplotlib.pyplot as plt
@@ -45,14 +46,12 @@ def test_noise(img, noised):
   print('Noise factor of SUSAN is', calculate_noise(sus, noise_sus))
   print('Noise factor of Harris is', calculate_noise(har, noise_har))
 
- 
 def calculate_noise(img, noised):
   intersect = np.count_nonzero(np.logical_and(img, noised))
   elem1 = np.count_nonzero(img)
   elem2 = np.count_nonzero(noised)
   min_elem = min(elem1, elem2)
   return (intersect / min_elem) * 100
-
 
 def filter_image(arr: np.ndarray, org: np.ndarray=[], title: str='Image', type: Literal['har', 'sus', 'sif'] = 'har'):
   """Filters given image array (has to be numpy array) and prints it
@@ -79,14 +78,6 @@ def filter_image(arr: np.ndarray, org: np.ndarray=[], title: str='Image', type: 
   im = Image.fromarray(im)
   im.show(title=title)
 
-# yalnizca gercek erkeklerin belli oldugu yer
-def getInvariantMoments(img):
-    moments = cv2.moments(img)
-    huMoments = cv2.HuMoments(moments)
-    for i in range(0,7):
-        huMoments[i] = -1* np.copysign(1.0, huMoments[i]) * np.log10(abs(huMoments[i]))
-    return huMoments
-
 if __name__ == '__main__':
   # get image using PIL and convert to grayscale
   img1 = cv2.imread('images/dino_1.png',cv2.IMREAD_GRAYSCALE)
@@ -95,10 +86,10 @@ if __name__ == '__main__':
   har1 = harris(img1, 0.07, 5)
   har2 = harris(img2, 0.07, 5)
   
-  inv1 = getInvariantMoments(har1)
-  inv2 = getInvariantMoments(har2)
-  print(inv1)
-  print(inv2)
+  print('opencv moments:')
+  match(har1, har2)
+  print('our implementation moments')
+  imp_match(har1, har2)
   #print(timer(img_arr4, susan, 3, 27, 14.5))
   #print(timer(img_arr4, harris, 0.07, 5))
   
