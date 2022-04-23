@@ -79,37 +79,49 @@ def filter_image(arr: np.ndarray, org: np.ndarray=[], title: str='Image', type: 
   im = Image.fromarray(im)
   im.show(title=title)
 
+# yalnizca gercek erkeklerin belli oldugu yer
+def getInvariantMoments(img):
+    moments = cv2.moments(img)
+    huMoments = cv2.HuMoments(moments)
+    for i in range(0,7):
+        huMoments[i] = -1* np.copysign(1.0, huMoments[i]) * np.log10(abs(huMoments[i]))
+    return huMoments
+
 if __name__ == '__main__':
   # get image using PIL and convert to grayscale
-  img4 = Image.open('images/sens_1.jpg').convert('L')
-  img5 = Image.open('images/sens_2.jpg').convert('L')
-  # make the image numpy array
-  img_arr4 = np.asarray(img4)
-  img_arr5 = np.asarray(img5)
+  img1 = cv2.imread('images/dino_1.png',cv2.IMREAD_GRAYSCALE)
+  img2 = cv2.imread('images/dino_1_90deg.png',cv2.IMREAD_GRAYSCALE)
 
-  print(timer(img_arr4, susan, 3, 27, 14.5))
-  print(timer(img_arr4, harris, 0.07, 5))
+  har1 = harris(img1, 0.07, 5)
+  har2 = harris(img2, 0.07, 5)
   
-  noise_dino1 = Image.open('images/noise_sens_1.png').convert('L')
-  noise_dino_arr1 = np.asarray(noise_dino1)
+  inv1 = getInvariantMoments(har1)
+  inv2 = getInvariantMoments(har2)
+  print(inv1)
+  print(inv2)
+  #print(timer(img_arr4, susan, 3, 27, 14.5))
+  #print(timer(img_arr4, harris, 0.07, 5))
+  
+  #noise_dino1 = Image.open('images/noise_sens_1.png').convert('L')
+  #noise_dino_arr1 = np.asarray(noise_dino1)
 
-  sus4 = susan(img_arr4, 3, 27, 14.5)
-  filter_image(sus4, img_arr4, type='sus')
+  #sus4 = susan(img_arr4, 3, 27, 14.5)
+  #filter_image(sus4, img_arr4, type='sus')
 
-  sus_noise1 = susan(noise_dino_arr1, 3, 40, 14.5)
-  filter_image(sus_noise1, noise_dino_arr1, type='sus')
+  #sus_noise1 = susan(noise_dino_arr1, 3, 40, 14.5)
+  #filter_image(sus_noise1, noise_dino_arr1, type='sus')
 
   #calculate stability factor of image_4 and image_5 on susan
-  test_stability(img_arr4, img_arr5)
+  #test_stability(img_arr4, img_arr5)
 
   #calculate noise factor of sense1 for susan
   #test_noise(img_arr4, noise_dino_arr1)
 
   #sif = sift(img_arr)
   # calculate noise factor of sense1 for susan
-  intersect = np.count_nonzero(np.logical_and(sus4, sus_noise1))
+"""   intersect = np.count_nonzero(np.logical_and(sus4, sus_noise1))
   elem_sus4 = np.count_nonzero(sus4)
   elem_sus5 = np.count_nonzero(sus_noise1)
   min_elem = min(elem_sus4, elem_sus5)
   noise_fact = (intersect / min_elem) * 100
-  print("noise_factor is", noise_fact)
+  print("noise_factor is", noise_fact) """
