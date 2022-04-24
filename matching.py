@@ -40,10 +40,10 @@ def match(img1, img2):
   print(inv2)
 
 def get_feature_hus(img, params=[0.07, 5]):
-  #har = harris(img, *params)
-  #h1 = np.where(har > 0.01 * har.max())
-  har = susan(img, 3, 27, 14.5)
-  h1 = np.where(har != 0)
+  har = harris(img, *params)
+  h1 = np.where(har > 0.01 * har.max())
+  #har = susan(img, 3, 27, 14.5)
+  #h1 = np.where(har != 0)
 
   rows = []
   cols = []
@@ -51,9 +51,9 @@ def get_feature_hus(img, params=[0.07, 5]):
   for i in range(len(h1[0])):
       row = h1[0][i]
       col = h1[1][i]
-      if row - 3 < 0 or row + 4 >= img.shape[0] or col - 3 < 0 or col + 4 >= img.shape[1]:
+      if row - 10 < 0 or row + 11 >= img.shape[0] or col - 10 < 0 or col + 11 >= img.shape[1]:
           continue
-      sub_img = img[row - 3: row + 4,col - 3: col + 4]
+      sub_img = img[row - 10: row + 11,col - 10: col + 11]
       hu1 = getInvariantMoments(sub_img)
       
       rows.append(row)
