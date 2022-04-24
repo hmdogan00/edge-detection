@@ -80,16 +80,11 @@ def filter_image(arr: np.ndarray, org: np.ndarray=[], title: str='Image', type: 
 
 if __name__ == '__main__':
   # get image using PIL and convert to grayscale
-  img1 = cv2.imread('images/dino_1.png',cv2.IMREAD_GRAYSCALE)
-  img2 = cv2.imread('images/dino_1_90deg.png',cv2.IMREAD_GRAYSCALE)
+  img1 = cv2.imread('images/plane.jpeg',cv2.IMREAD_GRAYSCALE)
+  img2 = cv2.imread('images/plane_90deg.jpeg',cv2.IMREAD_GRAYSCALE)
 
-  har1 = harris(img1, 0.07, 5)
-  har2 = harris(img2, 0.07, 5)
+  imp_match(img1, img2)
   
-  print('opencv moments:')
-  match(har1, har2)
-  print('our implementation moments')
-  imp_match(har1, har2)
   #print(timer(img_arr4, susan, 3, 27, 14.5))
   #print(timer(img_arr4, harris, 0.07, 5))
   
